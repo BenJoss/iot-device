@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.huafen.device.mapper.IotDeviceMapper">
+	
+	<resultMap type="com.huafen.device.model.device.IotDeviceDTO" id="devicePageRetultMap">
+		<result property="deviceID" column="DEVICE_ID" />
+		<result property="deviceName" column="DEVICE_NAME" />
+		<result property="deviceModel" column="DEVICE_MODEL" />
+		<result property="deviceBrand" column="DEVICE_BRAND" />
+	    <result property="deviceIP" column="DEVICE_IP" />
+	    <result property="devicePort" column="DEVICE_PORT" />
+	    <result property="deviceState" column="DEVICE_STATE" />
+	    <result property="deviceRoom" column="DEVICE_ROOM" />
+	    <result property="deviceArea" column="DEVICE_AREA" />
+	    <result property="increaseTime" column="INCREASE_TIME" />
+	</resultMap>
+	
+	
+	<select id="countIotDeviceByPage" resultType="java.lang.Integer" parameterType="com.huafen.device.model.page.PageBean">
+			SELECT
+				COUNT(1) 
+			FROM
+				t_iot_device_info t 
+				WHERE 1=1
+				<if test = "deviceName != null and deviceName != ''">			
+			    	AND t.DEVICE_NAME LIKE #{deviceName}"%"
+				</if>
+				<if test = "deviceIP != null and deviceIP != ''">	
+					AND t.DEVICE_IP LIKE #{deviceIP}"%"
+				</if>
+				<if test = "deviceArea != null and deviceArea != ''">	
+					 AND t.DEVICE_AREA = #{deviceArea}
+				</if>				
+	</select>
+		
+	<select id="queryIotDevicePageList" resultMap="devicePageRetultMap" parameterType="com.huafen.device.model.page.PageBean">
+			SELECT
+				`DEVICE_ID`,
+				`DEVICE_NAME`,
+				`DEVICE_MODEL`,
+				`DEVICE_BRAND`,
+				`DEVICE_IP`,
+				`DEVICE_PORT`,
+				`DEVICE_STATE`,
+				`DEVICE_ROOM`,
+				`DEVICE_AREA`,
+				date_format( `INCREASE_TIME` , '%Y-%m-%d %T' ) AS INCREASE_TIME
+			FROM
+				t_iot_device_info t
+				WHERE 1=1
+				<if test = "deviceName != null and deviceName != ''">			
+			    	AND t.DEVICE_NAME LIKE #{deviceName}"%"
+				</if>
+				<if test = "deviceIP != null and deviceIP != ''">	
+					AND t.DEVICE_IP LIKE #{deviceIP}"%"
+				</if>
+				<if test = "deviceArea != null and deviceArea != ''">	
+					 AND t.DEVICE_AREA = #{deviceArea}
+				</if>				
+				ORDER BY t.INCREASE_TIME DESC
+				LIMIT #{start}, #{pageSize}		
+	</select>
+	
+	
+	<select id="countIotDeviceDTO" resultType="java.lang.Integer" parameterType="com.huafen.device.model.param.IotDeviceParam">
+		SELECT
+			COUNT( 1 ) 
+		FROM
+			t_iot_device_info t
+			WHERE 1=1
+			<if test = "deviceID != null and deviceID != ''">
+				AND t.DEVICE_ID=#{deviceID} 
+			</if>
+			<if test = "deviceIP != null and deviceIP != ''">
+			   AND t.DEVICE_IP=#{deviceIP} 
+			</if>
+			<if test = "devicePort != null and devicePort != ''">
+			   AND t.DEVICE_PORT=#{devicePort}
+			</if>
+	</select>
+	
+	<insert id="insertIotDeviceDTO" parameterType="com.huafen.device.model.device.IotDeviceDTO">
+		INSERT INTO `t_iot_device_info` (
+			`DEVICE_ID`,
+			`DEVICE_NAME`,
+			`DEVICE_MODEL`,
+			`DEVICE_BRAND`,
+			`DEVICE_IP`,
+			`DEVICE_PORT`,
+			`DEVICE_STATE`,
+			`DEVICE_ROOM`,
+			`DEVICE_AREA`,
+			`INCREASE_TIME`,
+			`CREATE_TIME`,
+			`UPDATE_TIME`,
+			`BACK_COL1`,
+			`BACK_COL2`,
+			`BACK_COL3`,
+			`BACK_COL4`,
+			`BACK_COL5`,
+			`BACK_COL6` 
+		)
+		VALUES
+			(
+				#{deviceID},
+				#{deviceName},
+				#{deviceModel},
+				#{deviceBrand},
+				#{deviceIP},
+				#{devicePort},
+				#{deviceState},
+				#{deviceRoom},
+				#{deviceArea},
+				NOW(),
+				NOW(),
+				NOW(),
+				NULL,
+				NULL,
+				NULL,
+				NULL,
+				NULL,
+		        NULL 
+			)
+    </insert>
+	
+   <delete id="deleteIotDeviceInfo" parameterType="com.huafen.device.model.param.IotDeviceParam">
+		DELETE FROM t_iot_device_info WHERE  DEVICE_ID=#{deviceID} 
+	</delete>
+	
+	
+	<update id="updateIotDeviceInfo" parameterType="com.huafen.device.model.device.IotDeviceDTO">
+    		update t_iot_device_info 
+			<set>
+			  <if test = "deviceName != null and deviceName != ''">			  
+			   DEVICE_NAME = #{deviceName},
+			  </if>
+			  <if test = "deviceModel != null and deviceModel != ''">			  
+			   DEVICE_MODEL = #{deviceModel},
+			  </if>
+			  <if test = "deviceBrand != null and deviceBrand != ''">			  
+			   DEVICE_BRAND = #{deviceBrand},
+			  </if>	
+			  <if test = "deviceIP != null and deviceIP != ''">			  
+			   DEVICE_IP = #{deviceIP},
+			  </if>	
+			  <if test = "devicePort != null and devicePort != ''">			  
+			   DEVICE_PORT = #{devicePort},
+			  </if>	
+			  <if test = "deviceState != null and deviceState != ''">			  
+			   DEVICE_STATE = #{deviceState},
+			  </if>
+			  <if test = "deviceRoom != null and deviceRoom != ''">			  
+			   DEVICE_ROOM = #{deviceRoom},
+			  </if>	
+			  <if test = "deviceArea != null and deviceArea != ''">	
+				DEVICE_AREA = #{deviceArea},
+			  </if>		  		  		  		  			  
+			  update_time = now()
+			</set> 
+			WHERE  DEVICE_ID=#{deviceID} 
+    </update>
+	
+</mapper>

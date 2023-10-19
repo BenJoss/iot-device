@@ -1,0 +1,378 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.huafen.device</groupId>
+  <artifactId>IOT-DEVICE-SERVICE</artifactId>
+  <version>1.0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>IOT-DEVICE-SERVICE</name>
+
+  <properties>
+        <jdbc-systemPath>/Users/Shared/workspace/iot-device/src/main/resources/lib/nds-jdbc-20230129-jdk8.jar</jdbc-systemPath>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring-boot.version>2.2.1.RELEASE</spring-boot.version>
+		<spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
+		<jackson.version>2.9.6</jackson.version>
+		<redis.version>2.4.0</redis.version>
+		<commons.pool2.version>2.11.1</commons.pool2.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<xiaoymin.version>3.0.3</xiaoymin.version>
+		<swagger2.version>2.9.2</swagger2.version>
+		<netty.version>4.1.25.Final</netty.version>
+		<gson.version>2.8.5</gson.version>
+		<guava.version>21.0</guava.version>
+		<druid.version>1.2.11</druid.version>
+		<mybatis.version>2.2.2</mybatis.version>
+		<mysql.connector.version>5.1.48</mysql.connector.version>
+		<keycloak.version>20.0.2</keycloak.version>
+		<knife4j.version>2.0.9</knife4j.version>
+		<fastjson.version>2.0.22</fastjson.version>
+		<ehcache.version>2.10.6</ehcache.version>    
+  </properties>
+
+<dependencyManagement>
+<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+				<version>${nacos-discovery.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba.nacos</groupId>
+				<artifactId>nacos-client</artifactId>
+				<version>${nacos-client.version}</version>
+			</dependency>
+			<!-- spring-boot-starter-data-mongodb 与spring boot版本一致 -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-data-mongodb</artifactId>
+				<version>${spring-mongodb.version}</version>
+			</dependency>
+		<dependency>
+		   <groupId>org.springframework.boot</groupId>
+		   <artifactId>spring-boot-starter-aop</artifactId>
+		   <version>${spring-boot.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-websocket</artifactId>
+		    <version>${spring-boot.version}</version>
+		</dependency>
+		 <dependency>
+		        <groupId>org.springframework.boot</groupId>
+		        <artifactId>spring-boot-starter-actuator</artifactId>
+		        <version>${spring-boot.version}</version>
+		    </dependency>
+		    <!--MQTT客户端工具-->
+		    <dependency>
+		        <groupId>org.eclipse.paho</groupId>
+		        <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+		        <version>1.2.2</version>
+		    </dependency>
+		    <dependency>
+		        <groupId>org.springframework.boot</groupId>
+		        <artifactId>spring-boot-configuration-processor</artifactId>
+		        <optional>true</optional>
+		        <version>${spring-boot.version}</version>
+		    </dependency>
+           <!-- fastjson  -->
+			<dependency>
+			    <groupId>com.alibaba</groupId>
+			    <artifactId>fastjson</artifactId>
+			    <version>${fastjson.version}</version>
+			</dependency>
+
+
+			<!-- 【数据库】mysql driver -->
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql.connector.version}</version>
+			</dependency>
+
+
+			<!--【数据库】数据库连接池 -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>${druid.version}</version>
+			</dependency>
+
+			<!--【数据库】持久层框架 mybatis -->
+			<dependency>
+				<groupId>org.mybatis.spring.boot</groupId>
+				<artifactId>mybatis-spring-boot-starter</artifactId>
+				<version>${mybatis.version}</version>
+			</dependency>
+
+			<!--redisson -->
+			<dependency>
+			     <groupId>org.redisson</groupId>
+			     <!-- for Spring Data Redis v.2.2.x -->
+			     <artifactId>redisson-spring-data-22</artifactId>
+			     <version>3.15.0</version>
+			 </dependency>
+
+
+			<!--redis -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-data-redis</artifactId>
+				<version>${redis.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-pool2</artifactId>
+				<version>${commons.pool2.version}</version>
+			</dependency>
+			<!-- jackson序列化 -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.xiaoymin</groupId>
+				<artifactId>knife4j-spring-ui</artifactId>
+				<version>${xiaoymin.version}</version>
+			</dependency>
+
+            <!-- knife4j -->
+			<dependency>
+			    <groupId>com.github.xiaoymin</groupId>
+			    <artifactId>knife4j-spring-boot-starter</artifactId>
+			    <version>${knife4j.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.netty</groupId>
+				<artifactId>netty-all</artifactId>
+				<version>${netty.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>${gson.version}</version>
+			</dependency>
+			
+			 <dependency>
+		        <groupId>com.google.guava</groupId>
+		        <artifactId>guava</artifactId>
+		        <version>${guava.version}</version>
+		    </dependency>
+			
+			<!-- ehcache依赖 -->
+			<dependency>
+			 <groupId>net.sf.ehcache</groupId>
+			 <artifactId>ehcache</artifactId>
+			 <version>${ehcache.version}</version>
+			</dependency>
+			<dependency>
+			 <groupId>org.springframework.boot</groupId>
+			 <artifactId>spring-boot-starter-cache</artifactId>
+			 <version>${spring-boot.version}</version>
+			</dependency>
+
+		</dependencies>
+ </dependencyManagement> 
+  
+  
+  <dependencies>
+
+
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			    <!-- 排除spring boot默认日志logback -->
+			    <exclusions>
+			        <exclusion>
+			            <groupId>org.springframework.boot</groupId>
+			            <artifactId>spring-boot-starter-logging</artifactId>
+			        </exclusion>
+			    </exclusions>
+		</dependency>
+		
+		<!--引入log4j2依赖 -->
+		<dependency> 
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+
+		<dependency>
+		            <groupId>org.springframework.boot</groupId>
+		            <artifactId>spring-boot-starter-test</artifactId>
+		            <scope>test</scope>
+		            <exclusions>
+		                <exclusion>
+		                    <groupId>org.junit.vintage</groupId>
+		                    <artifactId>junit-vintage-engine</artifactId>
+		                </exclusion>
+		            </exclusions>
+		        </dependency>
+			 <dependency>
+		        <groupId>com.google.guava</groupId>
+		        <artifactId>guava</artifactId>
+		    </dependency>
+			<dependency>
+			    <groupId>com.github.xiaoymin</groupId>
+			    <artifactId>knife4j-spring-boot-starter</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-aop</artifactId>
+			</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-websocket</artifactId>
+		    </dependency>
+		 <dependency>
+		        <groupId>org.springframework.boot</groupId>
+		        <artifactId>spring-boot-starter-actuator</artifactId>
+		        </dependency>
+		    <!--MQTT客户端工具-->
+		    <dependency>
+		        <groupId>org.eclipse.paho</groupId>
+		        <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+		        </dependency>
+		    <dependency>
+		        <groupId>org.springframework.boot</groupId>
+		        <artifactId>spring-boot-configuration-processor</artifactId>
+		        <optional>true</optional>
+		        </dependency>
+
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+		</dependency>
+
+
+			<!--redisson -->
+			<dependency>
+			     <groupId>org.redisson</groupId>
+			     <!-- for Spring Data Redis v.2.2.x -->
+			     <artifactId>redisson-spring-data-22</artifactId>
+			 </dependency>
+			 
+			 <!--redis -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-data-redis</artifactId>
+			</dependency>
+			 
+			<dependency>
+			    <groupId>com.alibaba</groupId>
+			    <artifactId>fastjson</artifactId>
+			</dependency>
+
+			<dependency>
+			 <groupId>net.sf.ehcache</groupId>
+			 <artifactId>ehcache</artifactId>
+			</dependency>
+			<dependency>
+			 <groupId>org.springframework.boot</groupId>
+			 <artifactId>spring-boot-starter-cache</artifactId>
+			</dependency>			
+			
+		<dependency>
+            <groupId>sgcc.nds</groupId>
+            <artifactId>jdbc</artifactId>
+            <version>20230129</version>
+            <scope>system</scope>
+            <systemPath>${jdbc-systemPath}</systemPath>
+        </dependency>
+
+	</dependencies>
+	
+	<build>
+		
+                 <defaultGoal>compile</defaultGoal>			    
+			     <finalName>${project.artifactId}</finalName>
+			     <sourceDirectory>src</sourceDirectory>
+		         <plugins>
+		            <plugin>
+		             <groupId>org.springframework.boot</groupId>
+		             <artifactId>spring-boot-maven-plugin </artifactId>
+		             <version>${spring-boot.version}</version>
+		              <!-- 如果有依赖外部jar，则必须加上此配置includeSystemScope -->
+		             <configuration>
+		                 <fork>true</fork>
+		                 <mainClass>com.huafen.tablet.TabletServiceApplication</mainClass>
+		                  <includeSystemScope>true</includeSystemScope>
+		             </configuration>
+		                    <executions>
+		                    <execution>
+			                	<!-- 绑定 Maven 生命周期的 package 阶段 -->
+			                    <phase>package</phase>		                    
+		                        <goals>
+		                            <goal>repackage</goal>
+		                        </goals>
+		                    </execution>
+		                </executions>
+		            </plugin>		            		           
+		        </plugins>
+		       
+		    <!--正常启动需注释以下resources代码，否则会包shiro错误-->
+<!-- 	        <resources>
+				<resource>
+					<directory>${project.basedir}/src/main/resources/lib</directory>
+					<targetPath>/BOOT-INF/lib/</targetPath>
+					<includes>
+						<include>**/*.jar</include>
+					</includes>
+				</resource>
+				<resource>
+					<directory>src/main/resources</directory>
+					<targetPath>BOOT-INF/classes/</targetPath>
+					<excludes>
+					  <exclude>**/*.jar</exclude>
+					</excludes>
+				</resource>
+	        </resources> -->		
+		
+	</build>
+  
+</project>
