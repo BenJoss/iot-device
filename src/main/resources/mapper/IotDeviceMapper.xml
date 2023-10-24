@@ -26,13 +26,13 @@
 				t_iot_device_info t 
 				WHERE 1=1
 				<if test = "deviceName != null and deviceName != ''">			
-			    	AND t.DEVICE_NAME LIKE #{deviceName}"%"
+			    	AND t.DEVICE_NAME LIKE "%"#{deviceName}"%"
 				</if>
 				<if test = "deviceIP != null and deviceIP != ''">	
-					AND t.DEVICE_IP LIKE #{deviceIP}"%"
+					AND t.DEVICE_IP LIKE "%"#{deviceIP}"%"
 				</if>
-				<if test = "deviceArea != null and deviceArea != ''">	
-					 AND t.DEVICE_AREA = #{deviceArea}
+				<if test = "deviceRoom != null and deviceRoom != ''">	
+					 AND t.DEVICE_ROOM = #{deviceRoom}
 				</if>				
 	</select>
 		
@@ -52,13 +52,13 @@
 				t_iot_device_info t
 				WHERE 1=1
 				<if test = "deviceName != null and deviceName != ''">			
-			    	AND t.DEVICE_NAME LIKE #{deviceName}"%"
+			    	AND t.DEVICE_NAME LIKE "%"#{deviceName}"%"
 				</if>
 				<if test = "deviceIP != null and deviceIP != ''">	
-					AND t.DEVICE_IP LIKE #{deviceIP}"%"
+					AND t.DEVICE_IP LIKE "%"#{deviceIP}"%"
 				</if>
-				<if test = "deviceArea != null and deviceArea != ''">	
-					 AND t.DEVICE_AREA = #{deviceArea}
+				<if test = "deviceRoom != null and deviceRoom != ''">	
+					 AND t.DEVICE_ROOM = #{deviceRoom}
 				</if>				
 				ORDER BY t.INCREASE_TIME DESC
 				LIMIT #{start}, #{pageSize}		
@@ -127,7 +127,14 @@
     </insert>
 	
    <delete id="deleteIotDeviceInfo" parameterType="com.huafen.device.model.param.IotDeviceParam">
-		DELETE FROM t_iot_device_info WHERE  DEVICE_ID=#{deviceID} 
+		DELETE FROM t_iot_device_info WHERE 1=1
+		<if test="deviceIDList != null and deviceIDList.size() > 0 ">
+			AND DEVICE_ID IN
+			<foreach item="item" index="index" collection="deviceIDList"
+	             open="(" separator="," close=")">	
+	              #{item}
+			</foreach>		
+		</if>
 	</delete>
 	
 	

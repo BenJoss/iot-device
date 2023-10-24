@@ -331,7 +331,7 @@
 		
                  <defaultGoal>compile</defaultGoal>			    
 			     <finalName>${project.artifactId}</finalName>
-			     <sourceDirectory>src</sourceDirectory>
+			     <sourceDirectory>src/main/java</sourceDirectory>
 		         <plugins>
 		            <plugin>
 		             <groupId>org.springframework.boot</groupId>
@@ -340,7 +340,7 @@
 		              <!-- 如果有依赖外部jar，则必须加上此配置includeSystemScope -->
 		             <configuration>
 		                 <fork>true</fork>
-		                 <mainClass>com.huafen.tablet.TabletServiceApplication</mainClass>
+		                 <mainClass>com.huafen.device.IotDeviceServiceApplication</mainClass>
 		                  <includeSystemScope>true</includeSystemScope>
 		             </configuration>
 		                    <executions>

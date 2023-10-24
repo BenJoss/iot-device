@@ -35,6 +35,10 @@ public class IotDeviceEditServiceImpl implements IotDeviceEditService{
 	    	int  count = iotDeviceMapper.countIotDeviceDTO(iotDeviceParam);
 			if (count == 0) {
 				iotDeviceMapper.insertIotDeviceDTO(iotDeviceDTO);
+			}else {
+				reposeDTO.setRepCode(RepCode.ERROR_CODE);
+				reposeDTO.setRepMsg("设备ID重复");
+				return reposeDTO;
 			}
 			reposeDTO.setRepCode(RepCode.SUCCESS_CODE);
 		} catch (Exception e) {
@@ -56,6 +60,7 @@ public class IotDeviceEditServiceImpl implements IotDeviceEditService{
 		}
 		return reposeDTO;
 	}
+	
 
 	@Override
 	public ReposeDTO<Integer> updateIotDeviceInfoService(IotDeviceDTO iotDeviceDTO) {
@@ -70,6 +75,7 @@ public class IotDeviceEditServiceImpl implements IotDeviceEditService{
 		return reposeDTO;
 	}
 
+	
 	@Override
 	public PageBean<IotDeviceDTO> queryIotDevicePageListService(PageBean<IotDeviceDTO> pageBean) {
 		 try {
@@ -85,7 +91,7 @@ public class IotDeviceEditServiceImpl implements IotDeviceEditService{
 				PageBean<IotDeviceDTO> pageParam = new PageBean<>(pageBean.getPageNum(),pageBean.getPageSize(),totalRecord);
 				pageParam.setDeviceName(pageBean.getDeviceName());
 				pageParam.setDeviceIP(pageBean.getDeviceIP());
-				pageParam.setDeviceArea(pageBean.getDeviceArea());
+				pageParam.setDeviceRoom(pageBean.getDeviceRoom());
 				List<IotDeviceDTO>  dataList = iotDeviceMapper.queryIotDevicePageList(pageParam);
 				pageParam.setTotalRecord(totalRecord);
 				pageParam.setData(dataList);

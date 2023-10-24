@@ -16,8 +16,8 @@ public class PageBean<T> implements Serializable{
 	private String deviceName;
 	@ApiModelProperty(value="设备IP",example = "172.28.5.141",required  = false )
 	private String deviceIP;
-	@ApiModelProperty(value="设备区域",example = "会议中心",required = true)
-	private String deviceArea;
+	@ApiModelProperty(value="设备所在会议室",example = "A2-206",required = false)
+	private String deviceRoom;
 	@ApiModelProperty(value="当前页数",example = "1")
     private int pageNum; //当前页数
 	@ApiModelProperty(value="每页显示数",example = "10")
@@ -63,13 +63,13 @@ public class PageBean<T> implements Serializable{
 	public void setDeviceIP(String deviceIP) {
 		this.deviceIP = deviceIP;
 	}
-
-	public String getDeviceArea() {
-		return deviceArea;
+	
+	public String getDeviceRoom() {
+		return deviceRoom;
 	}
 
-	public void setDeviceArea(String deviceArea) {
-		this.deviceArea = deviceArea;
+	public void setDeviceRoom(String deviceRoom) {
+		this.deviceRoom = deviceRoom;
 	}
 
 	public int getPageNum() {

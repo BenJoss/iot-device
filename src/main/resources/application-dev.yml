@@ -26,6 +26,20 @@ spring:
       min-idle: 1
       # 最大等待时间
       max-wait: 60000
+      # 用来检测连接是否有效的sql
+      validation-query: select 'x'
+      # 连接有效性检查的超时时间 30 秒
+      validation-query-timeout: 30
+      # 每次检查强制验证连接有效性
+      keep-alive: true
+      # 对于长时间不使用的连接强制关闭
+      remove-abandoned: true
+      # 设置获取连接出错时的自动重连次数
+      connection-error-retry-attempts: 3
+      # 设置获取连接时的重试次数，-1为不重试
+      not-full-fimeout-retry-count: 3
+      #重连间隔时间 单位毫秒
+      acquire-retry-delay: 10000      
 # mybatis配置
 mybatis:
   #  配置xml路径

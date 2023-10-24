@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class IotDeviceServiceApplication {
 	
+	
 	public static void main(String[] args) {
 		SpringApplication.run(IotDeviceServiceApplication.class, args);
 		String host;
