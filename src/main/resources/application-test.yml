@@ -103,3 +103,4 @@ mtcofig:
   floorUrl: http://172.28.5.134:17010/api/meeting/sys-param-meta/query-sys-param-by-condition?group=FLOOR
   roomUrl: http://172.28.5.134:17010/api/meeting/mt-meeting-room/query?pageIndex={pageIndex}&pageSize={pageSize}&roomNameOrAddr=&cap=&floorId={floorId}
   mtinfoUrl: http://172.28.5.134:17010/api/meeting/statistics/?time={time}
+  releaseDeviceUrl: http://172.28.5.134:17020/iot-release-page-service/MonitorCtrl/refreshMq

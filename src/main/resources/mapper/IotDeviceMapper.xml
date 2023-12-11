@@ -26,10 +26,10 @@
 				t_iot_device_info t 
 				WHERE 1=1
 				<if test = "deviceName != null and deviceName != ''">			
-			    	AND t.DEVICE_NAME LIKE "%"#{deviceName}"%"
+			    	AND t.DEVICE_NAME LIKE CONCAT('%', #{deviceName}, '%')
 				</if>
 				<if test = "deviceIP != null and deviceIP != ''">	
-					AND t.DEVICE_IP LIKE "%"#{deviceIP}"%"
+					AND t.DEVICE_IP LIKE CONCAT('%',#{deviceIP}, '%')
 				</if>
 				<if test = "deviceRoom != null and deviceRoom != ''">	
 					 AND t.DEVICE_ROOM = #{deviceRoom}
@@ -52,10 +52,10 @@
 				t_iot_device_info t
 				WHERE 1=1
 				<if test = "deviceName != null and deviceName != ''">			
-			    	AND t.DEVICE_NAME LIKE "%"#{deviceName}"%"
+			    	AND t.DEVICE_NAME LIKE CONCAT('%', #{deviceName}, '%')
 				</if>
 				<if test = "deviceIP != null and deviceIP != ''">	
-					AND t.DEVICE_IP LIKE "%"#{deviceIP}"%"
+					AND t.DEVICE_IP LIKE  CONCAT('%',#{deviceIP}, '%')
 				</if>
 				<if test = "deviceRoom != null and deviceRoom != ''">	
 					 AND t.DEVICE_ROOM = #{deviceRoom}

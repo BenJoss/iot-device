@@ -13,8 +13,8 @@
         <jdbc-systemPath>/Users/Shared/workspace/iot-device/src/main/resources/lib/nds-jdbc-20230129-jdk8.jar</jdbc-systemPath>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring-boot.version>2.2.1.RELEASE</spring-boot.version>
-		<spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
+		<spring-boot.version>2.2.6.RELEASE</spring-boot.version>
+		<spring-cloud.version>Hoxton.SR4</spring-cloud.version>
 		<jackson.version>2.9.6</jackson.version>
 		<redis.version>2.4.0</redis.version>
 		<commons.pool2.version>2.11.1</commons.pool2.version>
@@ -50,15 +50,15 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+	        <dependency>
+	            <groupId>com.alibaba.cloud</groupId>
+	            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+	            <version>${spring-boot.version}</version>
+	        </dependency>
 			<dependency>
-				<groupId>org.springframework.cloud</groupId>
+				<groupId>com.alibaba.cloud</groupId>
 				<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-				<version>${nacos-discovery.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.alibaba.nacos</groupId>
-				<artifactId>nacos-client</artifactId>
-				<version>${nacos-client.version}</version>
+				<version>${spring-boot.version}</version>
 			</dependency>
 			<!-- spring-boot-starter-data-mongodb 与spring boot版本一致 -->
 			<dependency>
@@ -316,6 +316,11 @@
 			 <groupId>org.springframework.boot</groupId>
 			 <artifactId>spring-boot-starter-cache</artifactId>
 			</dependency>			
+	
+					<dependency>
+					   <groupId>com.alibaba.cloud</groupId>
+					   <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+					</dependency>
 			
 		<dependency>
             <groupId>sgcc.nds</groupId>
@@ -324,6 +329,12 @@
             <scope>system</scope>
             <systemPath>${jdbc-systemPath}</systemPath>
         </dependency>
+
+					
+			        <dependency>
+			            <groupId>com.alibaba.cloud</groupId>
+			            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+			        </dependency>
 
 	</dependencies>
 	

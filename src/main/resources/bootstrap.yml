@@ -1,0 +1,73 @@
+spring:   
+  profiles:
+    active: dev #选择使用dev文件 miur.yml，test.yml
+  cloud:
+    nacos:
+      config:
+       # nacos服务器地址
+       server-addr: 172.28.5.140:8848
+       namespace: 53d0967e-317e-4079-939b-fbce1919305c
+       #server-addr: 39.105.179.38:8848
+       # 配置所属命名空间的id
+       #namespace: 00b5afb8-bd2c-44ef-8d12-2db1ae7d24e9
+       # 配置所属分组
+       group: DEFAULT_GROUP
+       #username: nacos
+       #password: nacos
+       #
+       encode: UTF-8
+       # data-id:
+       # 配置文件类型，默认是properties
+       prefix: iot-device-service
+       file-extension: yaml
+      discovery:
+        server-addr: 172.28.5.140:8848
+        namespace: 53d0967e-317e-4079-939b-fbce1919305c
+        #server-addr: 39.105.179.38:8848
+        #namespace: 00b5afb8-bd2c-44ef-8d12-2db1ae7d24e9
+---
+spring:   
+  profiles:
+    active: miur #选择使用dev文件 miur.yml，test.yml
+  cloud:
+    nacos:
+      config:
+       # nacos服务器地址
+       server-addr: 172.28.5.140:8848
+       namespace: 53d0967e-317e-4079-939b-fbce1919305c
+       # 配置所属分组
+       group: DEFAULT_GROUP
+       #username: nacos
+       #password: nacos
+       #
+       encode: UTF-8
+       # data-id:
+       # 配置文件类型，默认是properties
+       prefix: iot-device-service
+       file-extension: yaml
+      discovery:
+        server-addr: 172.28.5.140:8848
+        namespace: 53d0967e-317e-4079-939b-fbce1919305c
+---
+spring:   
+  profiles:
+    active: test #选择使用dev文件 miur.yml，test.yml
+  cloud:
+    nacos:
+      config:
+       # nacos服务器地址
+       server-addr: 172.28.5.140:8848
+       namespace: 53d0967e-317e-4079-939b-fbce1919305c
+       # 配置所属分组
+       group: DEFAULT_GROUP
+       #username: nacos
+       #password: nacos
+       #
+       encode: UTF-8
+       # data-id:
+       # 配置文件类型，默认是properties
+       prefix: iot-device-service
+       file-extension: yaml
+      discovery:
+        server-addr: 172.28.5.140:8848
+        namespace: 53d0967e-317e-4079-939b-fbce1919305c

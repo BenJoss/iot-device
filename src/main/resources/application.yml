@@ -1,4 +1,4 @@
 #主配置文件
 spring:
   profiles:
-    active: dev #选择使用dev文件
+    active: dev #选择使用dev文件 miur.yml

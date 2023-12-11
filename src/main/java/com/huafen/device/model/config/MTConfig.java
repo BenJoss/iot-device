@@ -15,6 +15,8 @@ public class MTConfig {
     
     private String orgUserAd;
     
+    private String releaseDeviceUrl;
+    
 
 	public String getFloorUrl() {
 		return floorUrl;
@@ -46,6 +48,14 @@ public class MTConfig {
 
 	public void setMtinfoUrl(String mtinfoUrl) {
 		this.mtinfoUrl =  mtinfoUrl;
+	}
+
+	public String getReleaseDeviceUrl() {
+		return releaseDeviceUrl;
+	}
+
+	public void setReleaseDeviceUrl(String releaseDeviceUrl) {
+		this.releaseDeviceUrl = releaseDeviceUrl;
 	}
 
 	
