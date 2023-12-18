@@ -78,7 +78,7 @@ mqtt:
   defaultTopic: A2-206/206-RFID-UP
   dmqInfo:
          -/206-RFID-UP
-  isOpen: true
+  isOpen: false
   qos: 
      - 2
 mqttprv:

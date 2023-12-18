@@ -70,7 +70,7 @@ mqtt:
   dmqInfo:
          -/227-wendu
          -/227-shidu
-  isOpen: true
+  isOpen: false
   qos: 
      - 2
      - 2
