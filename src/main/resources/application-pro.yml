@@ -11,9 +11,9 @@ spring:
     name: iot-device-service
     # 数据库链接配置
   datasource:
-    url: jdbc:nds://172.28.2.91:18800/v_wzh?appname=app_wzh
-    username: wzh
-    password: wzh123!@#
+    url: jdbc:nds://172.28.2.91:18800/v_iot_meeting?appname=app_iot_meeting
+    username: calluser
+    password: call123!@#
     driver-class-name: sgcc.nds.jdbc.driver.NdsDriver
     # 链接池
     type: com.alibaba.druid.pool.DruidDataSource
@@ -51,9 +51,18 @@ logging:
   level:
     # root日志以WARN级别输出
     root: INFO
-#开启api文档
-knife4j:
-  enable: true
+# redis数据库链接配置
+redis:
+  host: 172.28.5.134
+  port: 17060
+  timeout: 30000
+  database: 1
+  lockWatchdogTimeout: 30000
+  connectionPoolSize: 24
+  tryTime: 60000
+  lockTime: 30000
+  lockName: apply
+  prefix: borrowed
 #mqtt客户端配置
 mqtt:
   hostUrl: tcp://172.27.35.3:1883
@@ -66,13 +75,11 @@ mqtt:
   timeout: 1000
   #设置会话心跳时间
   keepalive: 100
-  defaultTopic: A2-227/227-wendu:A2-227/227-shidu
+  defaultTopic: A2-206/206-RFID-UP
   dmqInfo:
-         -/227-wendu
-         -/227-shidu
+         -/206-RFID-UP
   isOpen: false
   qos: 
-     - 2
      - 2
 mqttprv:
   hostUrl: tcp://172.27.35.3:1883
@@ -85,17 +92,15 @@ mqttprv:
   timeout: 1000
   #设置会话心跳时间
   keepalive: 100
-  defaultTopic: A2-228/228-power:A2-227/227-shidu
+  defaultTopic: A2-206/206-RFID-UP
   dmqInfo:
-         -/228-power
-         -/227-shidu
+         -/206-RFID-UP
   qos: 
-     - 2
      - 2
 #会议预约系统接口配置
 mtcofig:
   orgUserAd: http://d-nari.sgepri.sgcc.com.cn:90/hr-org-service/sysUser/queryEmp
-  floorUrl: http://172.27.32.70:17010/api/meeting/sys-param-meta/query-sys-param-by-condition?group=FLOOR
-  roomUrl: http://172.27.32.70:17010/api/meeting/mt-meeting-room/query?pageIndex={pageIndex}&pageSize={pageSize}&roomNameOrAddr=&cap=&floorId={floorId}
-  mtinfoUrl: http://172.27.32.70:17010/api/meeting/statistics/?time={time}
-  releaseDeviceUrl: 
+  floorUrl: http://172.28.5.134:17010/api/meeting/sys-param-meta/query-sys-param-by-condition?group=FLOOR
+  roomUrl: http://172.28.5.134:17010/api/meeting/mt-meeting-room/query?pageIndex={pageIndex}&pageSize={pageSize}&roomNameOrAddr=&cap=&floorId={floorId}
+  mtinfoUrl: http://172.28.5.134:17010/api/meeting/statistics/?time={time}
+  releaseDeviceUrl: http://172.28.5.134:17020/iot-release-page-service/MonitorCtrl/refreshMq
