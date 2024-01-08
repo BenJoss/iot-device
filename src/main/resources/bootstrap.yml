@@ -1,13 +1,10 @@
-spring:   
-  profiles:
-    active: test #选择使用dev文件 miur.yml，test.yml, pro.yml
+spring:
   cloud:
     nacos:
       config:
        # nacos服务器地址
        server-addr: nacos-server.xxzx:8848
-       # 配置所属分组
-       group: DEFAULT_GROUP
+       group: IOT_DEVICE_GROUP
        #
        encode: UTF-8
        # data-id:
