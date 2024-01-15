@@ -5,11 +5,11 @@ import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
 import org.redisson.config.SingleServerConfig;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 import com.huafen.device.model.config.RedisProperties;
 
-//@Configuration
-// TODO
-@Deprecated
+@Configuration
 public class RedissionConfig {
 
     /**

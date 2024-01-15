@@ -67,4 +67,57 @@ public class CallRMUtil {
 	 * 
 	 */
 	public static final String RESULT = "result";
+	
+	/**
+	 * 
+	 */
+	public static final String UNXI = ":";
+	
+	/**
+	 * 
+	 */
+	public static final String MEET_RUNNING = "进行中";
+	/**
+	 * 
+	 */
+	public static final String MEET_NOT_USE = "未使用";
+	
+	/**
+	 * 
+	 */
+	public static final String HT_STAT_STATUS_ON = "ON";
+	/**
+	 * 
+	 */
+	public static final String HT_STAT_STATUS_OFF = "OFF";
+	
+	/**
+	 * 
+	 */
+	public static final String ROOM_NAME = "会议室";
+	
+	/**
+	 * 任务
+	 */
+	public static final String CON_VALUE = "CON_VALUE";
+	
+	public static final String AUTO_SCENE_NAME_LOAD_TASK = "autoSceneNameLoadTask";
+	
+	public static final String AUTO_SCENE_NAME_TASK = "autoSceneNameTask";
+	
+	public static final String PUBLISH_RELEASE_TASK = "publishReleaseTask";
+	
+	public static final String LOAD_PUBLISHINFO_TASK = "loadPublishInfoTask";
+	
+	public static final String TIME_PUBLISH_TASK = "timePublishTask";
+	
+	public static final String SYNC_MEETROOM_TASK = "syncMeetRoomTask";
+	
+	public static final String  RELEASE_PAGE_CONFIG = "releasePageConfig";
+	
+	public static final String  TERMINAL_DATA_CONFIG = "terminalDataConfig";
+	
+	public static final String IOTROOM_TERMINAL_TASK = "iotRoomTerminalTask";
+	
+	public static final String  RELEASE_TEMPLATE_CONFIG = "releaseTemplateConfig";
 }

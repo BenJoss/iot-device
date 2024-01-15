@@ -2,6 +2,9 @@ server:
   servlet:
     context-path: /iot-device-service
   port: 8080
+  tomcat:  
+    max-connections: 1000 # 设置Tomcat的最大连接数  
+    max-threads: 200 # 设置线程池的最大连接数
 spring:
   cache:
     type: ehcache
@@ -51,3 +54,57 @@ logging:
   level:
     # root日志以WARN级别输出
     root: INFO
+# redis数据库链接配置
+redis:
+  host: r-zy0ae35f89470424.redis.rds.ops.sgepri.sgcc.com.cn
+  port: 6379
+  timeout: 3000
+  database: 3
+  username: 
+  password: wlwpt_yw:New6@7123!
+  lockWatchdogTimeout: 30000
+  connectionPoolSize: 24
+  tryTime: 60000
+  lockTime: 30000
+  lockName: apply
+  prefix: borrowed
+#mqtt客户端配置
+mqtt:
+  hostUrl: tcp://172.27.35.3:1883
+  username: NARI
+  password: Sgepri.1617
+  clientid: mqtt_accept_client
+  cleanSession: true
+  reconnect: true
+  #连接超时
+  timeout: 60
+  retryCount: 3
+  #设置会话心跳时间
+  keepalive: 30
+  defaultTopic: A2-228/228-wendu:A2-228/228-shidu:A2-228/228-liangdu:A2-226/226-wendu:A2-226/226-shidu:A2-226/226-liangdu
+  dmqInfo:
+         -/228-wendu
+         -/228-shidu
+         -/228-liangdu
+         -/226-wendu
+         -/226-shidu
+         -/226-liangdu
+  isOpen: true
+#
+mqttprv:
+  hostUrl: tcp://172.27.35.3:1883
+  username: NARI
+  password: Sgepri.1617
+  clientid: provider-id
+  cleanSession: true
+  reconnect: true
+  #连接超时
+  timeout: 60
+  retryCount: 3
+  #设置会话心跳时间
+  keepalive: 30
+  defaultTopic: A2-206/206-RFID-UP
+  dmqInfo:
+         -/206-RFID-UP
+  qos: 
+     - 2

@@ -1,9 +1,10 @@
 package com.huafen.device.model.config;
 
-//@Component
-//@ConfigurationProperties(prefix = "redis")
-//TODO
-@Deprecated
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+@Component
+@ConfigurationProperties(prefix = "redis")
 public class RedisProperties {
 
 	private String host;

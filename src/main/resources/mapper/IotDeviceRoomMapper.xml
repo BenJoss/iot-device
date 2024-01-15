@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.huafen.device.mapper.IotDeviceRoomMapper">
+	
+	<resultMap type="com.huafen.device.model.room.IotRoom" id="iotRoomRetultMap">
+		<result property="roomID" column="ROOM_ID" />
+		<result property="roomName" column="ROOM_NAME" />
+		<result property="meetStatus" column="MEET_STATUS" />
+		<result property="roomImg" column="ROOM_IMG" />
+	</resultMap>
+	
+	<resultMap type="com.huafen.device.model.room.MultiRoom" id="iotMultiRoomRetultMap">
+		<result property="roomID" column="ROOM_ID" />
+		<result property="sceneName" column="SCENE_NAME" />
+		<result property="switchSatus" column="SWITCH_SATUS" />
+		<result property="timing" column="TIMING" />
+	</resultMap>	
+
+	<resultMap type="com.huafen.device.model.room.ManuRoom" id="iotManuRoomRetultMap">
+		<result property="roomID" column="ROOM_ID" />
+		<result property="onSiteMeet" column="SCENE_NAME" />
+		<result property="onSiteStatus" column="SWITCH_SATUS" />
+	</resultMap>
+
+	<resultMap type="com.huafen.device.model.room.RoomLight" id="iotRoomLightRetultMap">
+		<result property="roomID" column="ROOM_ID" />
+		<result property="roomName" column="ROOM_NAME" />
+	    <result property="sceneName" column="SCENE_NAME" />
+		<result property="frontLight" column="FRONT_LIGHT" />
+		<result property="rearLight" column="REAR_LIGHT" />
+		<result property="ambLight" column="AMB_LIGHT" />
+		<result property="downLight" column="DOWN_LIGHT" />
+		<result property="lightOneTouch" column="LIGHT_ONE_TOUCH" />
+	</resultMap>
+
+	<resultMap type="com.huafen.device.model.room.LedRoom" id="iotLedRoomRetultMap">
+		<result property="roomID" column="ROOM_ID" />
+		<result property="roomName" column="ROOM_NAME" />
+		<result property="sceneName" column="SCENE_NAME" />
+		<result property="LedSwitch" column="LED_SWITCH" />
+	</resultMap>
+	
+	<resultMap type="com.huafen.device.model.room.DeviceRoom" id="iotDeviceRoomRetultMap">
+		<result property="roomID" column="ROOM_ID" />
+		<result property="roomName" column="ROOM_NAME" />
+		<result property="sceneName" column="SCENE_NAME" />		
+		<result property="deviceSwitch" column="DEVICE_SWITCH" />
+	</resultMap>	
+
+
+	<resultMap type="com.huafen.device.model.room.MeetInfo" id="meetInfoRetultMap">
+		<result property="meetName" column="MEET_NAME" />
+		<result property="startTime" column="START_TIME" />		
+		<result property="endTime" column="END_TIME" />
+	</resultMap>
+
+
+
+<select id="queryIotConfig" resultType="java.util.Map" parameterType="com.huafen.device.model.param.IotConfig">
+		SELECT
+			CON_VALUE
+		FROM
+			t_iot_config t 
+		WHERE
+			t.CON_KEY = #{key} 
+		ORDER BY
+			t.CON_ORDER ASC
+</select>
+
+<select id="queryMeetInfoList" resultMap="meetInfoRetultMap" parameterType="com.huafen.device.model.param.MultiRoomParam">
+	SELECT 
+	    T.MEET_NAME,
+	    T.START_TIME,
+	    T.END_TIME
+	FROM
+	    T_IOT_RELEASE_INFO T
+	WHERE
+	    1 = 1
+	        AND T.ROOM_ID = (SELECT 
+	            B.ROOM_ID
+	        FROM
+	            T_CALL_SERVICE_ROOM B
+	        WHERE
+	            B.ROOM_NAME = (SELECT 
+	                    A.ROOM_NAME
+	                FROM
+	                    T_CALL_SERVICE_ROOM A
+	                WHERE
+	                    A.ROOM_ID = #{roomID}
+	                        AND A.SOURCE = '1'
+	                LIMIT 1)
+	                AND B.SOURCE = '0'
+	        LIMIT 1)
+	        AND T.START_TIME <![CDATA[ >= ]]>  CURDATE()
+	        AND T.START_TIME <![CDATA[ < ]]> CURDATE() + INTERVAL 1 DAY  
+</select>
+
+<select id="queryIotMultiRoomTaskList" resultMap="iotMultiRoomRetultMap" parameterType="com.huafen.device.model.param.MultiRoomParam">
+		SELECT 
+		    `ROOM_ID`,
+		    `SCENE_NAME`,
+		    `SWITCH_SATUS`,
+		    `TIMING`,
+		    `SHOW_ORDER`
+		FROM
+		    `T_IOT_MULTI_ROOM` T
+		    WHERE T.SWITCH_SATUS=#{switchSatus}	
+		   ORDER BY T.SHOW_ORDER ASC	
+</select>
+
+<select id="queryIotManuRoomInfo" resultMap="iotManuRoomRetultMap" parameterType="com.huafen.device.model.param.MultiRoomParam">
+	SELECT 
+		    `ROOM_ID`,
+		    `SCENE_NAME`,
+		    `SWITCH_SATUS`,
+		    `TIMING`,
+		    `SHOW_ORDER`
+		FROM
+		    T_IOT_MULTI_ROOM T
+		WHERE
+		    T.ROOM_ID = #{roomID}
+		    AND T.SWITCH_SATUS = #{switchSatus}
+		    LIMIT 1
+</select>
+
+<select id="queryFirstIotManuRoomInfo" resultMap="iotManuRoomRetultMap" parameterType="com.huafen.device.model.param.MultiRoomParam">
+	SELECT 
+		    `ROOM_ID`,
+		    `SCENE_NAME`,
+		    `SWITCH_SATUS`,
+		    `TIMING`,
+		    `SHOW_ORDER`
+		FROM
+		    T_IOT_MULTI_ROOM T
+		WHERE
+		    T.ROOM_ID = #{roomID}
+		    ORDER BY T.SHOW_ORDER ASC
+		    LIMIT 1
+</select>
+
+<select id="queryIotMultiRoomList" resultMap="iotMultiRoomRetultMap" parameterType="com.huafen.device.model.param.MultiRoomParam">
+		SELECT 
+		    `ROOM_ID`,
+		    `SCENE_NAME`,
+		    `SWITCH_SATUS`,
+		    `TIMING`,
+		    `SHOW_ORDER`
+		FROM
+		    `T_IOT_MULTI_ROOM` T
+		    WHERE T.ROOM_ID=#{roomID}	
+		   ORDER BY T.SHOW_ORDER ASC	
+</select>
+
+<select id="queryIotRoomLightList" resultMap="iotRoomLightRetultMap" parameterType="com.huafen.device.model.param.MultiRoomParam">
+		SELECT 
+			    `ROOM_ID`,
+			    (SELECT A.ROOM_NAME FROM T_CALL_SERVICE_ROOM A WHERE A.ROOM_ID = T.ROOM_ID AND A.SOURCE='1' LIMIT 1 ) ROOM_NAME,
+			    `SCENE_NAME`,
+			    `FRONT_LIGHT`,
+			    `REAR_LIGHT`,
+			    `AMB_LIGHT`,
+			    `DOWN_LIGHT`,
+			    `LIGHT_ONE_TOUCH`
+		FROM
+		    `T_IOT_LIGHT_ROOM` T
+		    WHERE T.ROOM_ID=#{roomID}		
+			AND T.SCENE_NAME=#{sceneName}	
+			LIMIT 1
+</select>
+
+<select id="queryIotLedRoomList" resultMap="iotLedRoomRetultMap" parameterType="com.huafen.device.model.param.MultiRoomParam">
+			SELECT 
+			    `ROOM_ID`,
+			    (SELECT A.ROOM_NAME FROM T_CALL_SERVICE_ROOM A WHERE A.ROOM_ID = T.ROOM_ID AND A.SOURCE='1' LIMIT 1 ) ROOM_NAME,
+			    `SCENE_NAME`,
+			    `LED_SWITCH`
+			FROM `t_iot_led_room` T
+		    WHERE T.ROOM_ID=#{roomID}		
+			AND T.SCENE_NAME=#{sceneName}	
+			LIMIT 1
+</select>
+
+<select id="queryIotDeviceRoomList" resultMap="iotDeviceRoomRetultMap" parameterType="com.huafen.device.model.param.MultiRoomParam">
+			SELECT 
+			    `ROOM_ID`,
+			    (SELECT A.ROOM_NAME FROM T_CALL_SERVICE_ROOM A WHERE A.ROOM_ID = T.ROOM_ID AND A.SOURCE='1' LIMIT 1 ) ROOM_NAME,
+			    `SCENE_NAME`,
+			    `DEVICE_SWITCH`
+			FROM `t_iot_device_room` T
+		    WHERE T.ROOM_ID=#{roomID}		
+			AND T.SCENE_NAME=#{sceneName}	
+			LIMIT 1
+</select>
+	
+<select id="countIotRoomPage" resultType="java.lang.Integer" parameterType="com.huafen.device.model.page.IotPageBean">
+    			SELECT 
+					COUNT(1)
+				FROM `t_call_service_room` T
+				WHERE 1=1
+				<if test = "source != null and source != ''">
+				   AND T.SOURCE=#{source}
+				</if>		
+				<if test = "floor != null and floor != ''">
+				   AND T.FLOOR=#{floor}
+				</if>
+				<if test = "roomName != null and roomName != ''">
+				   AND T.ROOM_NAME LIKE CONCAT('%',#{roomName},'%')
+				</if>
+				<if test = "address != null and address != ''">
+				   AND T.ROOM_ADDR=#{address}
+				</if>													
+</select>
+	
+
+<select id="queryIotRoomPageList" resultMap="iotRoomRetultMap" parameterType="com.huafen.device.model.page.IotPageBean">
+				SELECT
+					ROOM_ID,
+					ROOM_NAME,
+					ROOM_ADDR,
+					FLOOR_ID,
+					FLOOR,
+					ROOM_IMG,
+					RM_ORDER,
+					'HAVE' MEET_STATUS  
+				FROM
+					`t_call_service_room` T 
+				WHERE
+					1 = 1  
+					<if test = "source != null and source != ''">
+						 AND T.SOURCE=#{source}
+					</if>		
+					<if test = "floor != null and floor != ''">
+						 AND T.FLOOR=#{floor}
+					</if>
+					<if test = "roomName != null and roomName != ''">
+						 AND T.ROOM_NAME LIKE CONCAT('%',#{roomName},'%')
+					</if>
+					<if test = "address != null and address != ''">
+						 AND T.ROOM_ADDR=#{address}
+					</if>
+					ORDER BY ROOM_NAME ASC
+					LIMIT #{start}, #{pageSize}
+</select>
+
+
+<select id="countIotMultiRoom" resultType="java.lang.Integer" parameterType="com.huafen.device.model.param.MultiScenParam">
+    			SELECT 
+					COUNT(1)
+				FROM `t_iot_multi_room` T
+				WHERE 1=1
+			    AND T.ROOM_ID=#{roomID}		
+				AND T.SCENE_NAME=#{sceneName}	
+</select>
+
+
+<select id="countIotRoomLight" resultType="java.lang.Integer" parameterType="com.huafen.device.model.param.MultiScenParam">
+    			SELECT 
+					COUNT(1)
+				FROM `t_iot_light_room` T
+				WHERE 1=1
+			    AND T.ROOM_ID=#{roomID}		
+			    AND T.SCENE_NAME=#{sceneName}		
+</select>
+
+
+<select id="countIotLedRoom" resultType="java.lang.Integer" parameterType="com.huafen.device.model.param.MultiScenParam">
+    			SELECT 
+					COUNT(1)
+				FROM `t_iot_led_room` T
+				WHERE 1=1
+			    AND T.ROOM_ID=#{roomID}	
+			    AND T.SCENE_NAME=#{sceneName}			
+</select>
+
+<select id="countIotDeviceRoom" resultType="java.lang.Integer" parameterType="com.huafen.device.model.param.MultiScenParam">
+    			SELECT 
+					COUNT(1)
+				FROM `t_iot_device_room` T
+				WHERE 1=1
+			    AND T.ROOM_ID=#{roomID}		
+			    AND T.SCENE_NAME=#{sceneName}		
+</select>
+
+
+
+
+
+
+<insert id="insertIotMultiRoom" parameterType="com.huafen.device.model.room.MultiRoom">
+   INSERT INTO    `t_iot_multi_room`
+					(
+					`ROOM_ID`,
+					`SCENE_NAME`,
+					`SWITCH_SATUS`,
+					`TIMING`,
+					`SHOW_ORDER`,
+					`CREATE_TIME`,
+					`UPDATE_TIME`,
+					`BACK_COL1`,
+					`BACK_COL2`,
+					`BACK_COL3`,
+					`BACK_COL4`,
+					`BACK_COL5`,
+					`BACK_COL6`)
+					VALUES
+					(
+					#{roomID},
+					#{sceneName},
+					#{switchSatus},
+					#{timing},
+					#{showOrder},
+					NOW(),
+					NOW(),
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL
+					)
+
+</insert>	
+
+<insert id="insertIotRoomLight" parameterType="com.huafen.device.model.room.RoomLight">
+   INSERT INTO `t_iot_light_room`
+			(
+			`ROOM_ID`,
+			`SCENE_NAME`,
+			`FRONT_LIGHT`,
+			`REAR_LIGHT`,
+			`AMB_LIGHT`,
+			`DOWN_LIGHT`,
+			`LIGHT_ONE_TOUCH`,
+			`CREATE_TIME`,
+			`UPDATE_TIME`,
+			`BACK_COL1`,
+			`BACK_COL2`,
+			`BACK_COL3`,
+			`BACK_COL4`,
+			`BACK_COL5`,
+			`BACK_COL6`)
+			VALUES
+			(
+			#{roomID},
+			#{sceneName},
+			#{frontLight},
+			#{rearLight},
+			#{ambLight},
+			#{downLight},
+			#{lightOneTouch},
+			NOW(),
+			NOW(),
+			NULL,
+			NULL,
+			NULL,
+			NULL,
+			NULL,
+			NULL)	
+</insert>	
+
+<insert id="insertIotLedRoom" parameterType="com.huafen.device.model.room.LedRoom">
+   INSERT INTO `t_iot_led_room`
+		(
+		`ROOM_ID`,
+		`SCENE_NAME`,
+		`LED_SWITCH`,
+		`CREATE_TIME`,
+		`UPDATE_TIME`,
+		`BACK_COL1`,
+		`BACK_COL2`,
+		`BACK_COL3`,
+		`BACK_COL4`,
+		`BACK_COL5`,
+		`BACK_COL6`)
+		VALUES
+		(
+		#{roomID},
+		#{sceneName},
+		#{LedSwitch},
+			NOW(),
+			NOW(),
+			NULL,
+			NULL,
+			NULL,
+			NULL,
+			NULL,
+			NULL)	
+</insert>
+
+<insert id="insertIotDeviceRoom" parameterType="com.huafen.device.model.room.DeviceRoom">
+		INSERT INTO `t_iot_device_room`
+					(
+					`ROOM_ID`,
+					`SCENE_NAME`,
+					`DEVICE_SWITCH`,
+					`CREATE_TIME`,
+					`UPDATE_TIME`,
+					`BACK_COL1`,
+					`BACK_COL2`,
+					`BACK_COL3`,
+					`BACK_COL4`,
+					`BACK_COL5`,
+					`BACK_COL6`)
+					VALUES
+					(
+					#{roomID},
+					#{sceneName},
+					#{deviceSwitch},
+					NOW(),
+					NOW(),
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL)	
+</insert>
+	
+	
+	<update id="updateIotMultiRoom" parameterType="com.huafen.device.model.room.MultiRoom">
+    		update t_iot_multi_room 
+			<set>
+			  <if test = "sceneName != null and sceneName != ''">			  
+			   SCENE_NAME = #{sceneName},
+			  </if>
+			  <if test = "switchSatus != null and switchSatus != ''">			  
+			   SWITCH_SATUS = #{switchSatus},
+			  </if>
+			  <if test = "timing != null">			  
+			   TIMING = #{timing},
+			  </if>	
+			  <if test = "showOrder != null">			  
+			   SHOW_ORDER = #{showOrder},
+			  </if>				  	  		  		  		  			  
+			  UPDATE_TIME = now()
+			</set> 
+			WHERE  ROOM_ID=#{roomID} 	
+			AND    SCENE_NAME=#{sceneName}		
+    </update>
+    
+    <update id="updateIotMultiRoomOff" parameterType="com.huafen.device.model.param.MultiScenParam">
+    		update t_iot_multi_room 
+			<set>
+			  SWITCH_SATUS = 'OFF',		  	  		  		  		  			  
+			  UPDATE_TIME = now()
+			</set> 
+			WHERE  ROOM_ID=#{roomID} 	
+			AND    SCENE_NAME!=#{sceneName}			
+    </update>
+    
+    <update id="updateIotRoomLight" parameterType="com.huafen.device.model.room.RoomLight">
+    		update t_iot_light_room 
+			<set>
+			  <if test = "sceneName != null and sceneName != ''">			  
+			   SCENE_NAME = #{sceneName},
+			  </if>				
+			  <if test = "frontLight != null and frontLight != ''">			  
+			   FRONT_LIGHT = #{frontLight},
+			  </if>
+			  <if test = "rearLight != null and rearLight != ''">			  
+			   REAR_LIGHT = #{rearLight},
+			  </if>
+			  <if test = "ambLight != null and ambLight != ''">			  
+			   AMB_LIGHT = #{ambLight},
+			  </if>	
+			  <if test = "downLight != null and downLight != ''">			  
+			   DOWN_LIGHT = #{downLight},
+			  </if>	
+			  <if test = "lightOneTouch != null and lightOneTouch != ''">			  
+			   LIGHT_ONE_TOUCH = #{lightOneTouch},
+			  </if>				  			  	  		  		  		  			  
+			  UPDATE_TIME = now()
+			</set> 
+			WHERE  ROOM_ID=#{roomID} 	
+			AND    SCENE_NAME=#{sceneName}			
+    </update>
+	
+	
+	<update id="updateIotLedRoom" parameterType="com.huafen.device.model.room.LedRoom">
+    		update t_iot_led_room 
+			<set>
+			  <if test = "sceneName != null and sceneName != ''">			  
+			   SCENE_NAME = #{sceneName},
+			  </if>				
+			  <if test = "LedSwitch != null and LedSwitch != ''">			  
+			   LED_SWITCH = #{LedSwitch},
+			  </if>			  			  	  		  		  		  			  
+			  UPDATE_TIME = now()
+			</set> 
+			WHERE  ROOM_ID=#{roomID} 	
+			AND    SCENE_NAME=#{sceneName}				
+	</update>
+	
+	<update id="updateIotDeviceRoom" parameterType="com.huafen.device.model.room.DeviceRoom">
+    		update t_iot_device_room 
+			<set>
+			  <if test = "sceneName != null and sceneName != ''">			  
+			   SCENE_NAME = #{sceneName},
+			  </if>				
+			  <if test = "deviceSwitch != null and deviceSwitch != ''">			  
+			   DEVICE_SWITCH = #{deviceSwitch},
+			  </if>			  			  	  		  		  		  			  
+			  UPDATE_TIME = now()
+			</set> 
+			WHERE  ROOM_ID=#{roomID} 	
+			AND    SCENE_NAME=#{sceneName}				
+	</update>
+	
+	
+</mapper>

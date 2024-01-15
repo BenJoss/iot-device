@@ -24,6 +24,26 @@ public class SwaggerConfig {
 	                .build();
 	    }
 	 
+	 @Bean
+	    public Docket iotRoomDocket() {
+	        return new Docket(DocumentationType.SWAGGER_2)
+	                .apiInfo(apiInfo())
+	                .groupName("设备控制相关接口")
+	                .select()
+	                .apis(RequestHandlerSelectors.basePackage("com.huafen.device.controller.room"))//扫描的包路径
+	                .build();
+	    }
+	 
+	 @Bean
+	    public Docket iotRoomTopicDocket() {
+	        return new Docket(DocumentationType.SWAGGER_2)
+	                .apiInfo(apiInfo())
+	                .groupName("设备主题发送相关接口")
+	                .select()
+	                .apis(RequestHandlerSelectors.basePackage("com.huafen.device.controller.topic"))//扫描的包路径
+	                .build();
+	    }
+	 
 	 private ApiInfo apiInfo() {
 	        return new ApiInfoBuilder()
 	                .title("物联网设备信息维护接口文档")

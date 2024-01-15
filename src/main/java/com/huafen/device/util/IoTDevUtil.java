@@ -3,8 +3,44 @@ package com.huafen.device.util;
 import java.util.UUID;
 
 public class IoTDevUtil {
+	
+	/**
+	 *  设备开关指令配置
+	 */
+	public final static String  DEVICE_CONFIG="deviceConfig";
+	/**
+	 *  灯开关指令配置
+	 */
+	public final static String  LIGHT_CONFIG="lightConfig";
+	/**
+	 *  LED开关指令配置
+	 */
+	public final static String  LED_CONFIG="LedConfig";
+	/**
+	 *  设备开关
+	 */
+	
+	public final static String  DEV_TOPIC="AD-M3";
+	
+	public final static String  DEV_ICE="DEVICE";
+	
+	public final static String  TOPIC="Topic";
+	
+	public final static String  DEV_ICE_OPEN="001";
+	
+	/**
+	 *  设备开关
+	 */
 
-
+	public final static String  LIGHT_ONE_TOUCH_STATUS="OFF";
+	
+	public final static String  LIGHT_TOUCH_STATUS="OFF";
+	
+	public final static String  LIGHT_ONE_ON_TOUCH_STATUS="ON";
+	
+	public final static String  LIGHT_TOUCH_ON_STATUS="ON";
+	
+	
 	/**
 	 * 1：待借用、2：借用中、3：完结、4：异常、5：取消
 	 */
