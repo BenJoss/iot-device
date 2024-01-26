@@ -36,4 +36,5 @@ public class IotRoom implements Serializable{
 	@ApiModelProperty(value="会议室图片")
 	private String roomImg;
 	
+	private Long floorId;
 }

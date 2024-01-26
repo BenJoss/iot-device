@@ -4,6 +4,10 @@ import java.util.UUID;
 
 public class IoTDevUtil {
 	
+	public final static long  DEVICE_TIMEOUT=2000L;
+	
+	public final static long  INTERVAL_TIME_OUT=3000L;
+	
 	/**
 	 *  设备开关指令配置
 	 */

@@ -66,7 +66,7 @@ redis:
   connectionPoolSize: 24
   tryTime: 60000
   lockTime: 30000
-  lockName: apply
+  lockName: deviceLock
   prefix: borrowed
 #mqtt客户端配置
 mqtt:

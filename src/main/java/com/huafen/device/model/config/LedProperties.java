@@ -24,4 +24,8 @@ public class LedProperties implements Serializable{
 	 */
 	private String close;
 
+	/**
+	 * 执行次数
+	 */
+	private int count;
 }

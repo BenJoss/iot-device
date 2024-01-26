@@ -10,33 +10,71 @@ public class LightProperties implements Serializable{
 	private static final long serialVersionUID = -6667393383501821017L;
 	
 	/**
-	 * 前排灯前缀
+	 * 前缀
 	 */
-	private String frontPrefix;
+	private String prefix;
+//	/**
+//	 * 前缀
+//	 */
+//	private String Prefix;
+//	/**
+//	 * 前缀
+//	 */
+//	private String Prefix;
+//	/**
+//	 * 前缀
+//	 */
+//	private String Prefix;
 	/**
-	 * 后排灯前缀
+	 * 灯光一键打开指令
 	 */
-	private String rearPrefix;
+	private String oneTouchOpen;
 	/**
-	 * 氛围灯前缀
+	 * 灯光一键关闭指令
 	 */
-	private String ambPrefix;
+	private String oneTouchClose;
 	/**
-	 * 筒灯前缀
+	 * 前排灯打开指令
 	 */
-	private String downPrefix;
-	/**
-	 * 灯光一键前缀
-	 */
-	private String oneTouchPrefix;
-	/**
-	 * 打开指令
-	 */
-	private String open;
+	private String frontOpen;
 	
 	/**
-	 * 关闭指令
+	 * 前排灯关闭指令
 	 */
-	private String close;
+	private String frontClose;
+	
+	/**
+	 * 后排灯打开指令
+	 */
+	private String rearOpen;
+	
+	/**
+	 * 后排灯关闭指令
+	 */
+	private String rearClose;
+	
+	/**
+	 * 氛围灯打开指令
+	 */
+	private String ambOpen;
+	
+	/**
+	 * 氛围灯关闭指令
+	 */
+	private String ambClose;
+	
+	/**
+	 * 筒灯打开指令
+	 */
+	private String downOpen;
+	
+	/**
+	 * 筒灯关闭指令
+	 */
+	private String downClose;
 
+	/**
+	 * 执行次数
+	 */
+	private int count;
 }

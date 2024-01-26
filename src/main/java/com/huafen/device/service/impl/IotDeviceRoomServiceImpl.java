@@ -1,17 +1,30 @@
 package com.huafen.device.service.impl;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import com.huafen.device.config.RepCode;
 import com.huafen.device.mapper.IotDeviceRoomMapper;
+import com.huafen.device.model.config.MTConfig;
+import com.huafen.device.model.meet.MTRoomPO;
 import com.huafen.device.model.page.IotPageBean;
 import com.huafen.device.model.param.MultiRoomParam;
 import com.huafen.device.model.param.MultiScenParam;
+import com.huafen.device.model.req.RepMTRoom;
 import com.huafen.device.model.req.ReposeDTO;
 import com.huafen.device.model.room.DeviceRoom;
 import com.huafen.device.model.room.IotRoom;
@@ -22,7 +35,6 @@ import com.huafen.device.model.room.RoomLight;
 import com.huafen.device.service.IotDeviceRoomService;
 import com.huafen.device.util.CallRMUtil;
 import com.huafen.device.util.IoTDevUtil;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Service("iotDeviceRoomService")
@@ -31,6 +43,12 @@ public class IotDeviceRoomServiceImpl implements IotDeviceRoomService{
 
 	@Autowired
 	private IotDeviceRoomMapper iotDeviceRoomMapper;
+	
+	@Autowired
+	private RestTemplate restTemplate;
+	
+	@Autowired
+	private MTConfig mtConfig;
 	
 	@Override
 	public IotPageBean<IotRoom> queryIotDeviceRoomPageList(IotPageBean<IotRoom> iotPageBean) {
@@ -56,13 +74,51 @@ public class IotDeviceRoomServiceImpl implements IotDeviceRoomService{
 				pageParam.setSource(CallRMUtil.IOT_ROOM_SOURCE);
 				
 				List<IotRoom> iotRoomList = iotDeviceRoomMapper.queryIotRoomPageList(pageParam);
-				
+				List<IotRoom> iotList = new ArrayList<IotRoom>();
+				if (!iotRoomList.isEmpty()) {
+					String url =  mtConfig.getRoomUrl();
+					IotRoom iotRoom = iotRoomList.get(0);
+					Long floorId = iotRoom.getFloorId();
+					Map<String, Object> param = new HashMap<String, Object>();
+					param.put("pageIndex", 1);
+					param.put("pageSize", 30);
+					param.put("floorId", floorId);
+					HttpHeaders httpHeaders = new HttpHeaders();
+					HttpEntity<String> httpEntity = new HttpEntity<String>(httpHeaders);
+					ResponseEntity<RepMTRoom> responseEntity = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
+							RepMTRoom.class, param);
+					// 获取响应对象里的 body 对象
+					RepMTRoom body = responseEntity.getBody();
+					Integer code = body.getCode();
+					if (RepCode.MEET_SUCCESS_CODE == code) {
+						List<MTRoomPO> mRoomList = body.getResult();
+						if (!mRoomList.isEmpty()) {
+							  for(MTRoomPO mtRoomPO :mRoomList) {
+								  if (mtRoomPO.getExistMeeting() == 1) {
+										 List<IotRoom> filterList = iotRoomList.stream()
+								                    .filter(item -> mtRoomPO.getRoomName().equals(item.getRoomName()))
+								                    .collect(Collectors.toList());
+										 if (!filterList.isEmpty()) {
+											 filterList.get(0).setMeetStatus("HAVE");
+											 iotList.add(filterList.get(0));
+										}
+								}else  if (mtRoomPO.getExistMeeting() == 0)  {
+									List<IotRoom> filterList = iotRoomList.stream()
+						                    .filter(item -> mtRoomPO.getRoomName().equals(item.getRoomName()))
+						                    .collect(Collectors.toList());
+									if (!filterList.isEmpty()) {
+										 filterList.get(0).setMeetStatus("ON_HAVE");
+										 iotList.add(filterList.get(0));
+									}
+								}
+							  }
+						}
+					}
+				}
 				pageParam.setTotalRecord(totalRecord);
-				pageParam.setData(iotRoomList);
-				
+				iotList.stream().sorted(Comparator.comparing(IotRoom::getRoomName)).collect(Collectors.toList());
+				pageParam.setData(iotList);
 				return pageParam;
-		  
-				
 		}catch (Exception ex) {
 			log.error(ex.getMessage());
 		}

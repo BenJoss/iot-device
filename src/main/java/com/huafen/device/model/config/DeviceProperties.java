@@ -26,4 +26,8 @@ public class DeviceProperties implements Serializable{
 	 * 关闭指令
 	 */
 	private String close;
+	/**
+	 * 执行次数
+	 */
+	private int count;
 }

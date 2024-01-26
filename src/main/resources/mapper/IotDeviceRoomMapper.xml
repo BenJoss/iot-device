@@ -10,6 +10,7 @@
 		<result property="roomName" column="ROOM_NAME" />
 		<result property="meetStatus" column="MEET_STATUS" />
 		<result property="roomImg" column="ROOM_IMG" />
+		<result property="floorId" column="FLOOR_ID" />
 	</resultMap>
 	
 	<resultMap type="com.huafen.device.model.room.MultiRoom" id="iotMultiRoomRetultMap">
@@ -220,7 +221,7 @@
 					ROOM_ID,
 					ROOM_NAME,
 					ROOM_ADDR,
-					FLOOR_ID,
+					(SELECT A.FLOOR_ID FROM T_CALL_SERVICE_ROOM A WHERE A.SOURCE='0'AND A.ROOM_NAME = T.ROOM_NAME LIMIT 1 ) AS FLOOR_ID,
 					FLOOR,
 					ROOM_IMG,
 					RM_ORDER,
