@@ -380,7 +380,20 @@ public class IotDeviceRoomTaskServiceImpl implements IotDeviceRoomTaskService{
 						   i++;
 					   }
 
-			  }
+			  } else if (IoTDevUtil.LIGHT_ONE_TOUCH_STATUS.equals(ledRoom.getLedSwitch())){
+						   String close = ledProperties.getClose();
+						   int i = 0;
+						   while(i < count) {
+							   long now = System.currentTimeMillis();
+							   long waitTime = now + timeout ;
+							   while(now <= waitTime ) {
+							       now = System.currentTimeMillis();   
+							   }
+						       providerClient.publish(1, false, topic, close); 
+						       log.info(roomName +" "+sceneName + "：Led开关指令发送完毕"+" 值: "+close);
+							   i++;
+						   }
+			}
 		} catch (Exception exception) {
 			log.error("Led开关指令发送异常: "+exception.getMessage());
 		}

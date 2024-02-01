@@ -3,8 +3,8 @@ spring:
     nacos:
       config:
        # nacos服务器地址
-       #server-addr: nacos-server.xxzx:8848
-       server-addr: 39.105.179.38:8848
+       server-addr: nacos-server.xxzx:8848
+       #server-addr: 39.105.179.38:8848
        #namespace: 00b5afb8-bd2c-44ef-8d12-2db1ae7d24e9       
        group: IOT_DEVICE_GROUP
        #
@@ -14,6 +14,6 @@ spring:
        prefix: iot-device-service
        file-extension: yaml
       discovery:
-        #server-addr: nacos-server.xxzx:8848
-        server-addr: 39.105.179.38:8848
+        server-addr: nacos-server.xxzx:8848
+        #server-addr: 39.105.179.38:8848
         #namespace: 00b5afb8-bd2c-44ef-8d12-2db1ae7d24e9      

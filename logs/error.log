@@ -1,4 +1,20 @@
-[2024-01-14 09:34:41:809] [ERROR] - com.huafen.device.service.impl.IotDeviceRoomServiceImpl.queryManuRoomInfoService(IotDeviceRoomServiceImpl.java:177) - nested exception is org.apache.ibatis.reflection.ReflectionException: Could not set property 'sceneName' of 'class com.huafen.device.model.room.ManuRoom' with value '现场会议场景' Cause: org.apache.ibatis.reflection.ReflectionException: There is no setter for property named 'sceneName' in 'class com.huafen.device.model.room.ManuRoom'
-[2024-01-14 09:35:31:875] [ERROR] - com.huafen.device.service.impl.IotDeviceRoomServiceImpl.queryManuRoomInfoService(IotDeviceRoomServiceImpl.java:177) - nested exception is org.apache.ibatis.reflection.ReflectionException: Could not set property 'sceneName' of 'class com.huafen.device.model.room.ManuRoom' with value '现场会议场景' Cause: org.apache.ibatis.reflection.ReflectionException: There is no setter for property named 'sceneName' in 'class com.huafen.device.model.room.ManuRoom'
-[2024-01-14 13:56:30:031] [ERROR] - com.huafen.device.service.impl.IotDeviceRoomTaskServiceImpl.sendSceneNameMsg(IotDeviceRoomTaskServiceImpl.java:94) - 设备控制缓存未加载
-[2024-01-14 13:57:00:020] [ERROR] - com.huafen.device.service.impl.IotDeviceRoomTaskServiceImpl.sendSceneNameMsg(IotDeviceRoomTaskServiceImpl.java:94) - 设备控制缓存未加载
+[2024-02-01 11:01:22:542] [ERROR] - com.huafen.device.service.impl.IotDeviceRoomServiceImpl.queryIotDeviceRoomPageList(IotDeviceRoomServiceImpl.java:123) - 
+### Error querying database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NULL,
+					RM_ORDER,
+					'HAVE' MEET_STATUS  
+				FROM
+					`t_call_service_roo' at line 7
+### The error may exist in file [/Users/Shared/workspace/iot-device/target/classes/mapper/IotDeviceRoomMapper.xml]
+### The error may involve com.huafen.device.mapper.IotDeviceRoomMapper.queryIotRoomPageList-Inline
+### The error occurred while setting parameters
+### SQL: SELECT      ROOM_ID,      ROOM_NAME,      ROOM_ADDR,      (SELECT A.FLOOR_ID FROM T_CALL_SERVICE_ROOM A WHERE A.SOURCE='0'AND A.ROOM_NAME = T.ROOM_NAME LIMIT 1 ) AS FLOOR_ID,      FLOOR,      ROOM_IMG NULL,      RM_ORDER,      'HAVE' MEET_STATUS       FROM      `t_call_service_room` T      WHERE      1 = 1                 AND T.SOURCE=?                                    ORDER BY ROOM_NAME ASC      LIMIT ?, ?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NULL,
+					RM_ORDER,
+					'HAVE' MEET_STATUS  
+				FROM
+					`t_call_service_roo' at line 7
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NULL,
+					RM_ORDER,
+					'HAVE' MEET_STATUS  
+				FROM
+					`t_call_service_roo' at line 7

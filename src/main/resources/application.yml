@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: /iot-device-service
+    context-path: /
   port: 8080
   tomcat:  
     max-connections: 1000 # 设置Tomcat的最大连接数  
@@ -108,3 +108,9 @@ mqttprv:
          -/206-RFID-UP
   qos: 
      - 2
+#会议预约系统接口配置
+mtcofig:
+  roomIdTimeUrl: http://meeting-appoint-service.xxzx:9000/api/meeting/seat-plan/meeting-msg-room?roomId={roomId}&time={time}
+  floorUrl: http://meeting-appoint-service.xxzx:9000/api/meeting/sys-param-meta/query-sys-param-by-condition?group=FLOOR
+  roomUrl: http://meeting-appoint-service.xxzx:9000/api/meeting/mt-meeting-room/query?pageIndex={pageIndex}&pageSize={pageSize}&roomNameOrAddr=&cap=&floorId={floorId}
+  mtinfoUrl: http://meeting-appoint-service.xxzx:9000/api/meeting/statistics/?time={time}

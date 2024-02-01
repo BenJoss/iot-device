@@ -1,7 +1,5 @@
 package com.huafen.device.service.impl;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +72,6 @@ public class IotDeviceRoomServiceImpl implements IotDeviceRoomService{
 				pageParam.setSource(CallRMUtil.IOT_ROOM_SOURCE);
 				
 				List<IotRoom> iotRoomList = iotDeviceRoomMapper.queryIotRoomPageList(pageParam);
-				List<IotRoom> iotList = new ArrayList<IotRoom>();
 				if (!iotRoomList.isEmpty()) {
 					String url =  mtConfig.getRoomUrl();
 					IotRoom iotRoom = iotRoomList.get(0);
@@ -93,31 +90,26 @@ public class IotDeviceRoomServiceImpl implements IotDeviceRoomService{
 					if (RepCode.MEET_SUCCESS_CODE == code) {
 						List<MTRoomPO> mRoomList = body.getResult();
 						if (!mRoomList.isEmpty()) {
-							  for(MTRoomPO mtRoomPO :mRoomList) {
-								  if (mtRoomPO.getExistMeeting() == 1) {
-										 List<IotRoom> filterList = iotRoomList.stream()
-								                    .filter(item -> mtRoomPO.getRoomName().equals(item.getRoomName()))
-								                    .collect(Collectors.toList());
-										 if (!filterList.isEmpty()) {
-											 filterList.get(0).setMeetStatus("HAVE");
-											 iotList.add(filterList.get(0));
-										}
-								}else  if (mtRoomPO.getExistMeeting() == 0)  {
-									List<IotRoom> filterList = iotRoomList.stream()
-						                    .filter(item -> mtRoomPO.getRoomName().equals(item.getRoomName()))
+							  //
+							  for(IotRoom iotRoomItem : iotRoomList) {
+								  List<MTRoomPO> filterList = mRoomList.stream()
+						                    .filter(item -> iotRoomItem.getRoomName().equals(item.getRoomName()))
 						                    .collect(Collectors.toList());
-									if (!filterList.isEmpty()) {
-										 filterList.get(0).setMeetStatus("ON_HAVE");
-										 iotList.add(filterList.get(0));
-									}
+								 if (!filterList.isEmpty()) {
+									 MTRoomPO mtRoomPO = filterList.get(0);
+									 if (mtRoomPO.getExistMeeting() == 1) {
+										 iotRoomItem.setMeetStatus("HAVE");
+									 }else  if (mtRoomPO.getExistMeeting() == 0) {
+										 iotRoomItem.setMeetStatus("ON_HAVE");
+									 }
+									 
 								}
 							  }
 						}
 					}
 				}
 				pageParam.setTotalRecord(totalRecord);
-				iotList.stream().sorted(Comparator.comparing(IotRoom::getRoomName)).collect(Collectors.toList());
-				pageParam.setData(iotList);
+				pageParam.setData(iotRoomList);
 				return pageParam;
 		}catch (Exception ex) {
 			log.error(ex.getMessage());
