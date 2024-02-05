@@ -96,15 +96,18 @@ public class IotDeviceRoomServiceImpl implements IotDeviceRoomService{
 						                    .filter(item -> iotRoomItem.getRoomName().equals(item.getRoomName()))
 						                    .collect(Collectors.toList());
 								 if (!filterList.isEmpty()) {
-									 MTRoomPO mtRoomPO = filterList.get(0);
-									 if (mtRoomPO.getExistMeeting() == 1) {
-										 iotRoomItem.setMeetStatus("HAVE");
-									 }else  if (mtRoomPO.getExistMeeting() == 0) {
-										 iotRoomItem.setMeetStatus("ON_HAVE");
-									 }
-									 
+										 MTRoomPO mtRoomPO = filterList.get(0);
+										 if (mtRoomPO.getExistMeeting() == 1) {
+											 iotRoomItem.setMeetStatus(CallRMUtil.HAVE);
+										 }else  if (mtRoomPO.getExistMeeting() == 0) {
+											 iotRoomItem.setMeetStatus(CallRMUtil.ON_HAVE);
+										 }	 
+										 iotRoomItem.setIsMeetAppoint(true);
+								 }else {
+									 iotRoomItem.setIsMeetAppoint(false);
+									 iotRoomItem.setMeetStatus(CallRMUtil.ON_HAVE);
 								}
-							  }
+							}
 						}
 					}
 				}
@@ -214,12 +217,7 @@ public class IotDeviceRoomServiceImpl implements IotDeviceRoomService{
 		try {
 			String roomID = multiRoomParam.getRoomID();
 			multiRoomParam.setSwitchSatus(IoTDevUtil.LIGHT_TOUCH_ON_STATUS);
-			ManuRoom  manuRoom = iotDeviceRoomMapper.queryIotManuRoomInfo(multiRoomParam);
-			if (manuRoom == null ) {
-				manuRoom = iotDeviceRoomMapper.queryFirstIotManuRoomInfo(multiRoomParam);
-			}
-			if (manuRoom != null ) {
-				String onSiteMeet = manuRoom.getOnSiteMeet();
+			ManuRoom  manuRoom = new ManuRoom();
 				// 灯
 				RoomLight  roomLight = new RoomLight();
 				roomLight.setRoomID(roomID);
@@ -228,22 +226,19 @@ public class IotDeviceRoomServiceImpl implements IotDeviceRoomService{
 				roomLight.setFrontLight(IoTDevUtil.LIGHT_TOUCH_STATUS);
 				roomLight.setLightOneTouch(IoTDevUtil.LIGHT_TOUCH_STATUS);
 				roomLight.setRearLight(IoTDevUtil.LIGHT_TOUCH_STATUS);
-				roomLight.setSceneName(onSiteMeet);
 				// led
 				LedRoom  ledRoom = new LedRoom();
 				ledRoom.setLedSwitch(IoTDevUtil.LIGHT_TOUCH_STATUS);
 				ledRoom.setRoomID(roomID);
-				ledRoom.setSceneName(onSiteMeet);
 				// 设备
 				DeviceRoom  deviceRoom = new DeviceRoom();
 				deviceRoom.setDeviceSwitch(IoTDevUtil.LIGHT_TOUCH_STATUS);
 				deviceRoom.setRoomID(roomID);
-				deviceRoom.setSceneName(onSiteMeet);
 				//
 				manuRoom.setRoomLight(roomLight);
 				manuRoom.setLedRoom(ledRoom);
 				manuRoom.setDeviceRoom(deviceRoom);
-			}
+			
 			reposeDTO.setResult(manuRoom);
 			reposeDTO.setRepCode(RepCode.SUCCESS_CODE);
 		} catch (Exception ex) {

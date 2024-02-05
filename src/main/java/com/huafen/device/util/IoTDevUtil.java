@@ -36,7 +36,7 @@ public class IoTDevUtil {
 	 *  设备开关
 	 */
 
-	public final static String  LIGHT_ONE_TOUCH_STATUS="OFF";
+	public final static String  IOT_DEV_OFF_STATUS="OFF";
 	
 	public final static String  LIGHT_TOUCH_STATUS="OFF";
 	

@@ -37,4 +37,7 @@ public class IotRoom implements Serializable{
 	private String roomImg;
 	
 	private Long floorId;
+	
+	@ApiModelProperty(value="是否为会议预约会议室:true 是、false 否",example = "true")
+	private Boolean isMeetAppoint;
 }

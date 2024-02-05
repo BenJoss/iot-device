@@ -123,21 +123,12 @@
 				<version>${mybatis.version}</version>
 			</dependency>
 
-			<!--redisson -->
-			<dependency>
-			     <groupId>org.redisson</groupId>
-			     <!-- for Spring Data Redis v.2.2.x -->
-			     <artifactId>redisson-spring-data-22</artifactId>
-			     <version>3.15.0</version>
-			 </dependency>
-
-
-			<!--redis -->
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-data-redis</artifactId>
-				<version>${redis.version}</version>
-			</dependency>
+        <!--使用redisson作为分布式锁-->
+	        <dependency>
+	            <groupId>org.redisson</groupId>
+	            <artifactId>redisson</artifactId>
+	            <version>3.16.8</version>
+	        </dependency>
 
 			<dependency>
 				<groupId>org.apache.commons</groupId>
@@ -302,18 +293,12 @@
 		</dependency>
 
 
-			<!--redisson -->
-			<dependency>
-			     <groupId>org.redisson</groupId>
-			     <!-- for Spring Data Redis v.2.2.x -->
-			     <artifactId>redisson-spring-data-22</artifactId>
-			 </dependency>
-			 
-			 <!--redis -->
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-data-redis</artifactId>
-			</dependency>
+			<!-- 引入Redisson依赖 -->
+        <!--使用redisson作为分布式锁-->
+           <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            </dependency>
 			 
 			<dependency>
 			    <groupId>com.alibaba</groupId>

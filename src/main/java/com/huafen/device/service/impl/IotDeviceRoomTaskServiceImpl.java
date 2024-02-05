@@ -206,9 +206,9 @@ public class IotDeviceRoomTaskServiceImpl implements IotDeviceRoomTaskService{
 			  } catch (Exception exception) {
 				  log.error("灯开关指令发送异常: "+exception.getMessage());
 			  }
-		   }else if (IoTDevUtil.LIGHT_ONE_TOUCH_STATUS.equals(frontLight)) {
+		   }else if (IoTDevUtil.IOT_DEV_OFF_STATUS.equals(frontLight)) {
 			       try {
-			    	   String topic = lightProperties.getPrefix()+roomName+"-"+IoTDevUtil.TOPIC;
+			    	  // String topic = lightProperties.getPrefix()+roomName+"-"+IoTDevUtil.TOPIC;
 					   String close = lightProperties.getFrontClose();
 					   int i = 0;
 					   while(i < count) {
@@ -217,7 +217,7 @@ public class IotDeviceRoomTaskServiceImpl implements IotDeviceRoomTaskService{
 						   while(now <= waitTime ) {
 							   now = System.currentTimeMillis();   
 						   }
-						   providerClient.publish(1, false, topic, close);
+						 //  providerClient.publish(1, false, topic, close);
 				           log.info(roomName +" "+sceneName + "：灯光前排灯打开指令发送完毕"+" 值: "+close);
 						   i++;	
 					   }
@@ -246,8 +246,8 @@ public class IotDeviceRoomTaskServiceImpl implements IotDeviceRoomTaskService{
 						  log.error("灯开关指令发送异常: "+exception.getMessage());
 					  }
 		     
-			} else if (IoTDevUtil.LIGHT_ONE_TOUCH_STATUS.equals(rearLight)) {
-				      String topic = lightProperties.getPrefix()+roomName+"-"+IoTDevUtil.TOPIC;
+			} else if (IoTDevUtil.IOT_DEV_OFF_STATUS.equals(rearLight)) {
+				     // String topic = lightProperties.getPrefix()+roomName+"-"+IoTDevUtil.TOPIC;
 					  String close = lightProperties.getRearClose();
 					  try {
 						   int i = 0;
@@ -257,7 +257,7 @@ public class IotDeviceRoomTaskServiceImpl implements IotDeviceRoomTaskService{
 							   while(now <= waitTime ) {
 								   now = System.currentTimeMillis();   
 							   }
-							   providerClient.publish(1, false, topic, close);
+							//   providerClient.publish(1, false, topic, close);
 							   log.info(roomName +" "+sceneName + "：后排灯指令发送完毕"+" 值: "+close);
 							   i++;
 						   }
@@ -285,8 +285,8 @@ public class IotDeviceRoomTaskServiceImpl implements IotDeviceRoomTaskService{
 				  } catch (Exception exception) {
 					  log.error("灯开关指令发送异常: "+exception.getMessage());
 				  } 				  
-			} else if (IoTDevUtil.LIGHT_ONE_TOUCH_STATUS.equals(downLight)) {
-				  String topic = lightProperties.getPrefix()+roomName+"-"+IoTDevUtil.TOPIC;
+			} else if (IoTDevUtil.IOT_DEV_OFF_STATUS.equals(downLight)) {
+				//  String topic = lightProperties.getPrefix()+roomName+"-"+IoTDevUtil.TOPIC;
 				  String downClose = lightProperties.getDownClose();
 				  try {
 					   int i = 0;
@@ -296,7 +296,7 @@ public class IotDeviceRoomTaskServiceImpl implements IotDeviceRoomTaskService{
 						   while(now <= waitTime ) {
 						       now = System.currentTimeMillis();   
 						   }
-					       providerClient.publish(1, false, topic, downClose);
+					//       providerClient.publish(1, false, topic, downClose);
 					       log.info(roomName +" "+sceneName + "：筒灯指令发送完毕"+" 值: "+downClose);
 						   i++;
 					   }
@@ -325,8 +325,8 @@ public class IotDeviceRoomTaskServiceImpl implements IotDeviceRoomTaskService{
 				  } catch (Exception exception) {
 					  log.error("灯开关指令发送异常: "+exception.getMessage());
 				  }				
-		} else if (IoTDevUtil.LIGHT_ONE_TOUCH_STATUS.equals(ambLight)){			   
-				  String topic = lightProperties.getPrefix()+roomName+"-"+IoTDevUtil.TOPIC;
+		} else if (IoTDevUtil.IOT_DEV_OFF_STATUS.equals(ambLight)){			   
+				//  String topic = lightProperties.getPrefix()+roomName+"-"+IoTDevUtil.TOPIC;
 				  String close = lightProperties.getAmbClose();
 				  try {
 					   int i = 0;
@@ -336,7 +336,7 @@ public class IotDeviceRoomTaskServiceImpl implements IotDeviceRoomTaskService{
 						   while(now <= waitTime ) {
 						       now = System.currentTimeMillis();   
 						   }
-					       providerClient.publish(1, false, topic, close);
+					 //      providerClient.publish(1, false, topic, close);
 					       log.info(roomName +" "+sceneName + "：氛围灯指令发送完毕"+" 值: "+close);
 						   i++;
 					   }
@@ -380,8 +380,8 @@ public class IotDeviceRoomTaskServiceImpl implements IotDeviceRoomTaskService{
 						   i++;
 					   }
 
-			  } else if (IoTDevUtil.LIGHT_ONE_TOUCH_STATUS.equals(ledRoom.getLedSwitch())){
-						   String close = ledProperties.getClose();
+			  } else if (IoTDevUtil.IOT_DEV_OFF_STATUS.equals(ledRoom.getLedSwitch())){
+						//   String close = ledProperties.getClose();
 						   int i = 0;
 						   while(i < count) {
 							   long now = System.currentTimeMillis();
@@ -389,8 +389,8 @@ public class IotDeviceRoomTaskServiceImpl implements IotDeviceRoomTaskService{
 							   while(now <= waitTime ) {
 							       now = System.currentTimeMillis();   
 							   }
-						       providerClient.publish(1, false, topic, close); 
-						       log.info(roomName +" "+sceneName + "：Led开关指令发送完毕"+" 值: "+close);
+					//	       providerClient.publish(1, false, topic, close); 
+					//	       log.info(roomName +" "+sceneName + "：Led开关指令发送完毕"+" 值: "+close);
 							   i++;
 						   }
 			}
@@ -427,8 +427,8 @@ public class IotDeviceRoomTaskServiceImpl implements IotDeviceRoomTaskService{
 					   i++;
 				  }
 				  
-			} else if (IoTDevUtil.LIGHT_ONE_TOUCH_STATUS.equals(deviceRoom.getDeviceSwitch())) {
-					  String close = deviceProperties.getClose();
+			} else if (IoTDevUtil.IOT_DEV_OFF_STATUS.equals(deviceRoom.getDeviceSwitch())) {
+				//	  String close = deviceProperties.getClose();
 					  int i = 0;
 					  while(i < count) {
 						   long now = System.currentTimeMillis();
@@ -436,8 +436,8 @@ public class IotDeviceRoomTaskServiceImpl implements IotDeviceRoomTaskService{
 						   while(now <= waitTime ) {
 						      now = System.currentTimeMillis();   
 						   }
-						   providerClient.publish(1, false, topic,close);	
-						   log.info(roomName +" "+sceneName + "：设备开关指令发送完毕"+" 值: "+close);
+					//	   providerClient.publish(1, false, topic,close);	
+					//	   log.info(roomName +" "+sceneName + "：设备开关指令发送完毕"+" 值: "+close);
 						   i++;
 					  }
 			} 

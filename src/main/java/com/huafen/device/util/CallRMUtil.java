@@ -2,7 +2,14 @@ package com.huafen.device.util;
 
 public class CallRMUtil {
 
-
+	/**
+	 * HAVE
+	 */
+	public static final String HAVE = "HAVE";
+	/**
+	 * HAVE
+	 */
+	public static final String ON_HAVE = "ON_HAVE";
 	/**
 	 * 会议室信息来源:0:会议预约、1:物联系统
 	 */
