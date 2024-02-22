@@ -81,14 +81,11 @@ mqtt:
   retryCount: 3
   #设置会话心跳时间
   keepalive: 30
-  defaultTopic: A2-228/228-wendu:A2-228/228-shidu:A2-228/228-liangdu:A2-226/226-wendu:A2-226/226-shidu:A2-226/226-liangdu
+  defaultTopic: room_png_topic
   dmqInfo:
-         -/228-wendu
-         -/228-shidu
-         -/228-liangdu
-         -/226-wendu
-         -/226-shidu
-         -/226-liangdu
+         -/room_png_topic
+  qos: 
+     - 2
   isOpen: true
 #
 mqttprv:

@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -32,6 +36,7 @@ import com.huafen.device.model.room.MultiRoom;
 import com.huafen.device.model.room.RoomLight;
 import com.huafen.device.service.IotDeviceRoomService;
 import com.huafen.device.util.CallRMUtil;
+import com.huafen.device.util.DeviceEunm;
 import com.huafen.device.util.IoTDevUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,8 +50,27 @@ public class IotDeviceRoomServiceImpl implements IotDeviceRoomService{
 	@Autowired
 	private RestTemplate restTemplate;
 	
+	@Resource
+	private CacheManager cacheManager;
+	
 	@Autowired
 	private MTConfig mtConfig;
+	
+	
+	@Override
+	public void loadIotRoomImgInfo() {
+	    try {
+			    Cache cache = cacheManager.getCache(DeviceEunm.ROOM_IMG_CACHE.obtainSource());
+			    IotPageBean<IotRoom> iotPageBean = new IotPageBean<IotRoom>();
+				List<IotRoom> callRoomList = iotDeviceRoomMapper.queryCallRoomList(iotPageBean);
+				for(IotRoom item :callRoomList) {
+				    cache.put(item.getRoomID(), item);
+				}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		
+	}
 	
 	@Override
 	public IotPageBean<IotRoom> queryIotDeviceRoomPageList(IotPageBean<IotRoom> iotPageBean) {
@@ -106,6 +130,20 @@ public class IotDeviceRoomServiceImpl implements IotDeviceRoomService{
 								 }else {
 									 iotRoomItem.setIsMeetAppoint(false);
 									 iotRoomItem.setMeetStatus(CallRMUtil.ON_HAVE);
+								}
+								 try {
+										Cache cache = cacheManager.getCache(DeviceEunm.ROOM_IMG_CACHE.obtainSource());
+										IotRoom  iotRoomCache = cache.get(iotRoomItem.getRoomID(),IotRoom.class);
+										if (null !=  iotRoomCache && null != iotRoomCache.getRoomImg() ) {
+											iotRoomItem.setRoomImg(iotRoomCache.getRoomImg());
+										}else {
+											  log.info("加载会议室图片缓存:"+iotRoomItem.getRoomID());
+											  this.loadIotRoomImgInfo();
+											  iotRoomCache = cache.get(iotRoomItem.getRoomID(),IotRoom.class);
+											  iotRoomItem.setRoomImg(iotRoomCache.getRoomImg());
+										}
+								} catch (Exception e) {
+									
 								}
 							}
 						}

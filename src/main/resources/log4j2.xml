@@ -2,7 +2,7 @@
 <Configuration status="fatal">
   <!--打印在本地，根据具体存储地址填写-->
   <Properties>
-    <Property name="baseDir" value="./logs"/>
+    <Property name="baseDir" value="/opt/huafen/logs"/>
   </Properties>
 
   <Appenders>
@@ -32,6 +32,14 @@
         <!-- 文件大小 -->
         <SizeBasedTriggeringPolicy size="100 MB"/>
       </Policies>
+
+      <DefaultRolloverStrategy max="8">
+	      <Delete basePath="${baseDir}" maxDepth="1">
+	          <IfFileName glob="info_*.log.*"/>
+	          <IfLastModified age="7d"/>
+	      </Delete>
+	  </DefaultRolloverStrategy>
+      
     </RollingFile>
 
     <!-- info级别日志文件输出 -->
@@ -52,6 +60,14 @@
         <!-- 文件大小 -->
         <SizeBasedTriggeringPolicy size="100 MB"/>
       </Policies>
+      
+      <DefaultRolloverStrategy max="8">
+	      <Delete basePath="${baseDir}" maxDepth="1">
+	          <IfFileName glob="error_*.log.*"/>
+	          <IfLastModified age="7d"/>
+	      </Delete>
+	  </DefaultRolloverStrategy>  
+      
     </RollingFile>
 
     <!-- error级别日志文件输出 -->

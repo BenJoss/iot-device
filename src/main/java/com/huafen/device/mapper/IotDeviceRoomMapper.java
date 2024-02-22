@@ -28,6 +28,8 @@ public interface IotDeviceRoomMapper {
 	
 	List<IotRoom> queryIotRoomPageList(IotPageBean<IotRoom> iotPageBean);
 	
+	List<IotRoom> queryCallRoomList(IotPageBean<IotRoom> iotPageBean);
+	
 	List<MultiRoom> queryIotMultiRoomTaskList(MultiScenParam  multiRoomParam);
 	
 	List<MultiRoom> queryIotMultiRoomList(MultiRoomParam multiRoomParam);

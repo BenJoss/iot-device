@@ -23,6 +23,7 @@ public class IotDeviceEditServiceImpl implements IotDeviceEditService{
 	@Autowired
 	private IotDeviceMapper iotDeviceMapper;
 
+	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED ,rollbackFor = Exception.class)
 	public ReposeDTO<Integer> increaseDeviceInfo(IotDeviceDTO iotDeviceDTO) {

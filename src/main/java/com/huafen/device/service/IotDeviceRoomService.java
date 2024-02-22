@@ -11,6 +11,7 @@ import com.huafen.device.model.room.MultiRoom;
 
 public interface IotDeviceRoomService {
 
+	public void loadIotRoomImgInfo();
 	public IotPageBean<IotRoom> queryIotDeviceRoomPageList(IotPageBean<IotRoom> iotPageBean);
 	
 	public ReposeDTO<MultiRoom> saveMultiRoomInfoService(MultiRoom multiRoom);

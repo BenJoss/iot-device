@@ -8,10 +8,11 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.huafen.device.model.config.MqttProperties;
-import com.huafen.device.util.CallCacheUtil;
+import com.huafen.device.service.IotDeviceRoomService;
 
 import lombok.extern.slf4j.Slf4j;  
 
@@ -26,23 +27,24 @@ public class MqttAcceptCallback implements MqttCallbackExtended{
     @Autowired
     private MqttProperties mqttProperties;
    
-	
+	@Autowired
+	@Qualifier("iotDeviceRoomService")
+	private IotDeviceRoomService iotDeviceRoomService;
 	
 	@Override
 	public void connectionLost(Throwable cause) {
 		
-//		log.info("【MQTT-消费端】连接断开：" + cause.getMessage());
         synchronized(this) {
-//        	int reConnectNum = 0;
-//            while (reConnectNum <= 3) {
-//            	if (MqttAcceptClient.getMqttClient() == null || !MqttAcceptClient.getMqttClient().isConnected()) {
-//            		log.info("【MQTT-消费端】emqx重新连接....................................................");
-//    				mqttAcceptClient.reconnection();
-//                }else {
-//                	return;
-//                }
-//            	reConnectNum++;
-//    		}
+        	int reConnectNum = 0;
+            while (reConnectNum <= 3) {
+            	if (MqttAcceptClient.getMqttClient() == null || !MqttAcceptClient.getMqttClient().isConnected()) {
+            		log.info("【MQTT-消费端】emqx重新连接....................................................");
+    				mqttAcceptClient.reconnection();
+                }else {
+                	return;
+                }
+            	reConnectNum++;
+    		}
 		}
 		
         
@@ -55,7 +57,18 @@ public class MqttAcceptCallback implements MqttCallbackExtended{
 	@Override
 	public void messageArrived(String topic, MqttMessage message) throws Exception {
 		  String msg = new String(message.getPayload());
-		  CallCacheUtil.getInstance().put(topic, msg);
+		  switch (topic) {
+				case "room_png_topic":
+					if (msg.equals("upate")) {
+						//刷新会议图片缓存
+					}
+					log.info("刷新会议图片缓存");
+					iotDeviceRoomService.loadIotRoomImgInfo();
+					break;
+		
+				default:
+					break;
+		  }
 	}
 
 	@Override
